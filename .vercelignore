@@ -1,0 +1,9 @@
+node_modules
+dist
+dist_verify
+.git
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+vite.config.js.timestamp-*.mjs
+_t.ts
