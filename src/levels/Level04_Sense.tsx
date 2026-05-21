@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNav } from '../nav'
+import { useNav, nextAfterLevel } from '../nav'
 import { useGame } from '../game/store'
 import { audio } from '../game/audio'
 import { palette } from '../game/palette'
@@ -190,7 +190,7 @@ export default function Level04_Sense() {
   const finish = () => {
     completeLevel(4)
     audio.sfx('unlock')
-    nav({ name: 'selector' })
+    nav(nextAfterLevel())
   }
 
   const timerColor = timeLeft > 20 ? palette.mint : timeLeft > 10 ? palette.gold : palette.redAccent

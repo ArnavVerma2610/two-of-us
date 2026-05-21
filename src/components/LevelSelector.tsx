@@ -7,7 +7,7 @@ import PixelButton from './PixelButton'
 import PixelSprite from './PixelSprite'
 import SoundToggle from './SoundToggle'
 
-const COLS = 4
+const COLS = 3
 
 export default function LevelSelector() {
   const nav = useNav()

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNav } from '../nav'
+import { useNav, nextAfterLevel } from '../nav'
 import { useGame, emptyAnswers, type PlayerAnswers } from '../game/store'
 import { audio } from '../game/audio'
 import { swatch24 } from '../game/palette'
@@ -79,7 +79,7 @@ export default function Level01_Questions() {
         onContinue={(total) => {
           completeLevel(1, total)
           audio.sfx('unlock')
-          nav({ name: 'selector' })
+          nav(nextAfterLevel())
         }}
         onPlayAgain={() => {
           const blank = emptyAnswers()

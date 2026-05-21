@@ -31,9 +31,16 @@ const C = {
   gray: '#6E6A7C',
   steel: '#B9C0CC',
   cream: '#F6E6C4',
+  creamD: '#E5D2A8',
   green: '#7DC832',
+  greenL: '#A6E25C',
+  greenD: '#57A11C',
   purple: '#8A3FE0',
+  purpleD: '#5E1FA8',
   magenta: '#F15BB5',
+  magentaD: '#C73C92',
+  goldL: '#FFD36B',
+  goldD: '#C98A1E',
 }
 
 // --- Player 1 — cyan-haired fighter (bust) ---------------------------------
@@ -206,40 +213,49 @@ export const spriteHeart: Sprite = {
   ],
 }
 
-// --- Main character — the waving mascot you play as -------------------------
+// --- Main character — the waving mascot you play as (shaded) ----------------
 export const spriteMain: Sprite = {
   legend: {
     o: C.ink,
     y: C.gold, // hair + hand
+    Y: C.goldL, // hair highlight
+    k: C.goldD, // hair shadow
     r: C.orange, // arms
+    q: C.orangeD, // arm shadow
     s: C.cream, // face
+    d: C.creamD, // face shadow
     w: C.white, // eyes
     p: C.violet, // pupils
     m: C.magenta, // mouth
+    n: C.magentaD, // mouth shadow
     g: C.green, // shirt
+    G: C.greenL, // shirt highlight
+    e: C.greenD, // shirt shadow
     b: C.cyan, // legs
+    c: C.cyanD, // leg shadow
     u: C.purple, // shoes
+    v: C.purpleD, // shoe shadow
   },
   grid: [
-    '..y.y...........',
-    '..oyo...oyyo....',
-    '..oyo..oyyyyo...',
-    '..oro.osssssso..',
-    '..oro.owwswwso..',
-    '..oro.opwspwso..',
-    '..oro.osssssso..',
-    '..oro.osmmmmso..',
-    '..orrrosssssso..',
-    '..orrogggggggo..',
-    '....oggggggggoro',
-    '....oggggggggoro',
-    '....ogggggggorro',
-    '....oggggggggo..',
-    '....obbo..obbo..',
-    '....obbo..obbo..',
-    '....obbo..obbo..',
-    '...ouuuo.ouuuo..',
-    '..ouuuuo.ouuuuo.',
+    '..Y.Y...........',
+    '..oyo...oYyo....',
+    '..oyo..oYyyko...',
+    '..oro.osssssdo..',
+    '..oro.owwswwdo..',
+    '..oro.opwspwdo..',
+    '..oro.osssssdo..',
+    '..oro.osmmmnso..',
+    '..orqrosssssdo..',
+    '..orroGgggggeo..',
+    '....oGggggggeoro',
+    '....ogggggggeoro',
+    '....oGgggggeorro',
+    '....oGggggggeo..',
+    '....obbo..obco..',
+    '....obbo..obco..',
+    '....obbo..obco..',
+    '...ouuuo.ouuvo..',
+    '..ouvvuo.ouvvuo.',
   ],
 }
 

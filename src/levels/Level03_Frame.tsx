@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { useNav } from '../nav'
+import { useNav, nextAfterLevel } from '../nav'
 import { useGame } from '../game/store'
 import { audio } from '../game/audio'
 import { palette } from '../game/palette'
@@ -123,7 +123,7 @@ export default function Level03_Frame() {
     saveLevel3Framed(dataURL)
     completeLevel(3)
     audio.sfx('unlock')
-    nav({ name: 'selector' })
+    nav(nextAfterLevel())
   }
 
   return (

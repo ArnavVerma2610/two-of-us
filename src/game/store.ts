@@ -41,7 +41,7 @@ export type SealedLetter = {
   deliverAt: string // ISO date it would be "sent" (one year later)
 }
 
-export const TOTAL_LEVELS = 12
+export const TOTAL_LEVELS = 6
 
 interface GameStore {
   // Progress

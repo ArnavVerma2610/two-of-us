@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNav } from '../nav'
+import { useNav, nextAfterLevel } from '../nav'
 import { useGame } from '../game/store'
 import { audio } from '../game/audio'
 import PixelButton from '../components/PixelButton'
@@ -87,7 +87,7 @@ export default function Level06_Letter() {
               (A year from today. No peeking until then.)
             </p>
             <div className="mt-2">
-              <PixelButton variant="orange" size="lg" sfx="submit" onClick={() => nav({ name: 'selector' })}>
+              <PixelButton variant="orange" size="lg" sfx="submit" onClick={() => nav(nextAfterLevel())}>
                 DONE
               </PixelButton>
             </div>

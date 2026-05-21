@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNav } from '../nav'
+import { useNav, nextAfterLevel } from '../nav'
 import { useGame } from '../game/store'
 import { audio } from '../game/audio'
 import { canvasColors, palette } from '../game/palette'
@@ -287,7 +287,7 @@ export default function Level02_Canvas() {
     completeLevel(2)
     audio.sfx('unlock')
     setConfirm(false)
-    nav({ name: 'selector' })
+    nav(nextAfterLevel())
   }
 
   const ToolBtn = ({ t }: { t: Tool }) => (

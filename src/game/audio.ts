@@ -240,6 +240,7 @@ class AudioEngine {
 
   sfx(name: SfxName): void {
     if (!this.started || !this.sfxSynth) return
+    try {
     const now = Tone.now()
     switch (name) {
       case 'click':
@@ -302,6 +303,10 @@ class AudioEngine {
         this.sfxSynth.triggerAttackRelease('E3', '8n', now + 0.1)
         this.noise?.triggerAttackRelease('16n', now)
         break
+    }
+    } catch {
+      // Ignore audio scheduling hiccups (e.g. rapid SFX colliding on the
+      // Tone.js timeline). A dropped sound must never crash the game.
     }
   }
 }

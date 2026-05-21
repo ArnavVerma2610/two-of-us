@@ -51,38 +51,69 @@ export default function HomeScreen() {
       style={{ minHeight: '100vh', textAlign: 'center' }}
     >
       <div
-        className="flex items-center justify-center gap-4 sm:gap-8 mb-6 flex-wrap"
+        className="flex items-center justify-center gap-10 sm:gap-16 flex-wrap"
         ref={titleRef}
-        style={{ transform: `translate(${tilt.x}px, ${tilt.y}px)`, transition: 'transform 0.1s linear' }}
+        style={{
+          transform: `translate(${tilt.x}px, ${tilt.y}px)`,
+          transition: 'transform 0.1s linear',
+          width: '100%',
+          maxWidth: 980,
+        }}
       >
-        <PixelSprite sprite="p1" scale={5} className="bob" title="Player 1" />
-        <PixelSprite sprite="main" scale={8} className="bob bob-delay" title="You" />
-        <div className="flex flex-col items-center">
-          <h1 className="wordmark" style={{ fontSize: 'clamp(24px, 9vw, 64px)', lineHeight: 1.1 }}>
+        {/* Mascot — the star of the show */}
+        <div className="relative flex flex-col items-center" style={{ flexShrink: 0 }}>
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              top: '6%',
+              width: 280,
+              height: 280,
+              borderRadius: '50%',
+              background:
+                'radial-gradient(circle, rgba(242,179,61,0.30) 0%, rgba(242,179,61,0) 68%)',
+              zIndex: -1,
+            }}
+          />
+          <PixelSprite sprite="main" scale={14} className="bob" title="The mascot" />
+          {/* pixel pedestal + cast shadow */}
+          <div
+            style={{
+              width: 156,
+              height: 14,
+              background: 'var(--violet)',
+              border: '3px solid var(--ink)',
+              boxShadow: '4px 4px 0 var(--ink)',
+              marginTop: 6,
+            }}
+          />
+          <div style={{ width: 116, height: 10, background: 'rgba(0,0,0,0.35)', marginTop: 5 }} />
+        </div>
+
+        {/* Title + menu */}
+        <div className="flex flex-col items-start" style={{ gap: 18, textAlign: 'left' }}>
+          <h1 className="wordmark" style={{ fontSize: 'clamp(28px, 8vw, 60px)', lineHeight: 1.05 }}>
             TWO
             <br />
             OF US
           </h1>
+          <p className="font-vt" style={{ fontSize: 24, color: 'var(--gold)' }}>
+            a compatibility arcade
+          </p>
+          <div className="flex flex-col gap-4" style={{ width: 300, maxWidth: '80vw' }}>
+            {hasSave && (
+              <PixelButton variant="cyan" size="lg" sfx="submit" onClick={onContinue}>
+                CONTINUE
+              </PixelButton>
+            )}
+            <PixelButton variant="orange" size="lg" sfx="select" onClick={onNewGame}>
+              NEW GAME
+            </PixelButton>
+            <PixelButton variant="bone" size="lg" sfx="click" onClick={() => nav({ name: 'settings' })}>
+              SETTINGS
+            </PixelButton>
+          </div>
         </div>
-        <PixelSprite sprite="p2" scale={5} className="bob" title="Player 2" />
-      </div>
-
-      <p className="font-vt mb-10" style={{ fontSize: 26, color: 'var(--gold)' }}>
-        a compatibility arcade
-      </p>
-
-      <div className="flex flex-col gap-4 w-full" style={{ maxWidth: 320 }}>
-        {hasSave && (
-          <PixelButton variant="cyan" size="lg" sfx="submit" onClick={onContinue}>
-            CONTINUE
-          </PixelButton>
-        )}
-        <PixelButton variant="orange" size="lg" sfx="select" onClick={onNewGame}>
-          NEW GAME
-        </PixelButton>
-        <PixelButton variant="bone" size="lg" sfx="click" onClick={() => nav({ name: 'settings' })}>
-          SETTINGS
-        </PixelButton>
       </div>
 
       <footer className="font-vt" style={{ position: 'fixed', bottom: 10, left: 12, fontSize: 18, opacity: 0.6 }}>
