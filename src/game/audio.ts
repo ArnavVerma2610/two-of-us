@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 
-export type MusicTrack = 'home' | 'select' | 'level1' | 'level2'
+export type MusicTrack = 'home' | 'select' | 'level1' | 'level2' | 'level5'
 export type SfxName =
   | 'click'
   | 'select'
@@ -10,6 +10,10 @@ export type SfxName =
   | 'turn'
   | 'paint'
   | 'unlock'
+  | 'jump'
+  | 'coin'
+  | 'stomp'
+  | 'hurt'
 
 // ---------------------------------------------------------------------------
 // A small warm-chiptune engine built on Tone.js. Music is procedural: chord
@@ -68,6 +72,17 @@ const TRACKS: Record<MusicTrack, TrackDef> = {
       ['G2', 'B2', 'D3', 'F#3'],
     ],
     melody: [null, null, null, null, null, null, null, null, null, null, null, null],
+  },
+  level5: {
+    bpm: 142,
+    // bouncy platformer romp — I - vi - IV - V in C, fast
+    progression: [
+      ['C3', 'E3', 'G3'],
+      ['A2', 'C3', 'E3'],
+      ['F2', 'A2', 'C3'],
+      ['G2', 'B2', 'D3'],
+    ],
+    melody: ['C5', 'E5', 'G5', 'A5', 'G5', 'E5', 'F5', 'A5', 'C5', 'D5', 'G4', 'B4'],
   },
 }
 
@@ -269,6 +284,24 @@ class AudioEngine {
         this.sparkleSynth?.triggerAttackRelease('G6', '8n', now + 0.5)
         break
       }
+      case 'jump':
+        this.sfxSynth.triggerAttackRelease('C5', '32n', now)
+        this.sfxSynth.triggerAttackRelease('G5', '32n', now + 0.05)
+        this.sfxSynth.triggerAttackRelease('C6', '16n', now + 0.1)
+        break
+      case 'coin':
+        this.sparkleSynth?.triggerAttackRelease('B5', '32n', now)
+        this.sparkleSynth?.triggerAttackRelease('E6', '16n', now + 0.06)
+        break
+      case 'stomp':
+        this.kick?.triggerAttackRelease('G1', '8n', now)
+        this.sfxSynth.triggerAttackRelease('C4', '16n', now)
+        break
+      case 'hurt':
+        this.sfxSynth.triggerAttackRelease('A3', '16n', now)
+        this.sfxSynth.triggerAttackRelease('E3', '8n', now + 0.1)
+        this.noise?.triggerAttackRelease('16n', now)
+        break
     }
   }
 }

@@ -51,11 +51,12 @@ export default function HomeScreen() {
       style={{ minHeight: '100vh', textAlign: 'center' }}
     >
       <div
-        className="flex items-end justify-center gap-4 sm:gap-10 mb-6"
+        className="flex items-center justify-center gap-4 sm:gap-8 mb-6 flex-wrap"
         ref={titleRef}
         style={{ transform: `translate(${tilt.x}px, ${tilt.y}px)`, transition: 'transform 0.1s linear' }}
       >
-        <PixelSprite sprite="p1" scale={6} tint={undefined} className="bob" title="Player 1" />
+        <PixelSprite sprite="p1" scale={5} className="bob" title="Player 1" />
+        <PixelSprite sprite="main" scale={8} className="bob bob-delay" title="You" />
         <div className="flex flex-col items-center">
           <h1 className="wordmark" style={{ fontSize: 'clamp(24px, 9vw, 64px)', lineHeight: 1.1 }}>
             TWO
@@ -63,7 +64,7 @@ export default function HomeScreen() {
             OF US
           </h1>
         </div>
-        <PixelSprite sprite="p2" scale={6} className="bob bob-delay" title="Player 2" />
+        <PixelSprite sprite="p2" scale={5} className="bob" title="Player 2" />
       </div>
 
       <p className="font-vt mb-10" style={{ fontSize: 26, color: 'var(--gold)' }}>

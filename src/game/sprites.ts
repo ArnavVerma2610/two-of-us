@@ -30,6 +30,10 @@ const C = {
   white: '#FFFFFF',
   gray: '#6E6A7C',
   steel: '#B9C0CC',
+  cream: '#F6E6C4',
+  green: '#7DC832',
+  purple: '#8A3FE0',
+  magenta: '#F15BB5',
 }
 
 // --- Player 1 — cyan-haired fighter (bust) ---------------------------------
@@ -202,10 +206,64 @@ export const spriteHeart: Sprite = {
   ],
 }
 
+// --- Main character — the waving mascot you play as -------------------------
+export const spriteMain: Sprite = {
+  legend: {
+    o: C.ink,
+    y: C.gold, // hair + hand
+    r: C.orange, // arms
+    s: C.cream, // face
+    w: C.white, // eyes
+    p: C.violet, // pupils
+    m: C.magenta, // mouth
+    g: C.green, // shirt
+    b: C.cyan, // legs
+    u: C.purple, // shoes
+  },
+  grid: [
+    '..y.y...........',
+    '..oyo...oyyo....',
+    '..oyo..oyyyyo...',
+    '..oro.osssssso..',
+    '..oro.owwswwso..',
+    '..oro.opwspwso..',
+    '..oro.osssssso..',
+    '..oro.osmmmmso..',
+    '..orrrosssssso..',
+    '..orrogggggggo..',
+    '....oggggggggoro',
+    '....oggggggggoro',
+    '....ogggggggorro',
+    '....oggggggggo..',
+    '....obbo..obbo..',
+    '....obbo..obbo..',
+    '....obbo..obbo..',
+    '...ouuuo.ouuuo..',
+    '..ouuuuo.ouuuuo.',
+  ],
+}
+
+// --- Sealed envelope (Level 6 confirmation) --------------------------------
+export const spriteLetter: Sprite = {
+  legend: { o: C.ink, w: C.bone, r: C.red },
+  grid: [
+    'oooooooooo',
+    'owwwwwwwwo',
+    'owwoooowwo',
+    'owwwoowwwo',
+    'owwwwwwwwo',
+    'owwrwwrwwo',
+    'owwwrrwwwo',
+    'oooooooooo',
+  ],
+}
+
 export const allSprites = {
   p1: spriteP1,
   p2: spriteP2,
   hero: spriteHero,
+  main: spriteMain,
+  letter: spriteLetter,
   lock: spriteLock,
   check: spriteCheck,
   hardhat: spriteHardHat,

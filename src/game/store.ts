@@ -33,6 +33,14 @@ export type Level1State = {
   currentQuestion: number
 }
 
+export type SealedLetter = {
+  name: string
+  email: string
+  message: string
+  sealedAt: string // ISO date the letter was written
+  deliverAt: string // ISO date it would be "sent" (one year later)
+}
+
 export const TOTAL_LEVELS = 12
 
 interface GameStore {
@@ -47,6 +55,15 @@ interface GameStore {
 
   // Level 2
   level2: { artwork: string | null }
+
+  // Level 3 — framed picture
+  level3: { framed: string | null }
+
+  // Level 4 — sensory sketch
+  level4: { drawing: string | null }
+
+  // Level 6 — letter to future self
+  level6: SealedLetter | null
 
   // Settings
   settings: Settings
@@ -65,6 +82,11 @@ interface GameStore {
 
   // Level 2 actions
   saveLevel2Artwork: (dataURL: string) => void
+
+  // Level 3 / 4 / 6 actions
+  saveLevel3Framed: (dataURL: string) => void
+  saveLevel4Drawing: (dataURL: string) => void
+  sealLetter: (letter: SealedLetter) => void
 
   // Settings + reset
   resetProgress: () => void
@@ -88,6 +110,9 @@ export const useGame = create<GameStore>()(
 
       level1: freshLevel1(),
       level2: { artwork: null },
+      level3: { framed: null },
+      level4: { drawing: null },
+      level6: null,
 
       settings: {
         musicVolume: 70,
@@ -104,6 +129,9 @@ export const useGame = create<GameStore>()(
           hasSave: true,
           level1: freshLevel1(),
           level2: { artwork: null },
+          level3: { framed: null },
+          level4: { drawing: null },
+          level6: null,
         }),
 
       continueGame: () => set({ hasSave: true }),
@@ -146,6 +174,12 @@ export const useGame = create<GameStore>()(
 
       saveLevel2Artwork: (dataURL) => set({ level2: { artwork: dataURL }, hasSave: true }),
 
+      saveLevel3Framed: (dataURL) => set({ level3: { framed: dataURL }, hasSave: true }),
+
+      saveLevel4Drawing: (dataURL) => set({ level4: { drawing: dataURL }, hasSave: true }),
+
+      sealLetter: (letter) => set({ level6: letter, hasSave: true }),
+
       resetProgress: () =>
         set((state) => ({
           completedLevels: [],
@@ -154,6 +188,9 @@ export const useGame = create<GameStore>()(
           hasSave: false,
           level1: freshLevel1(),
           level2: { artwork: null },
+          level3: { framed: null },
+          level4: { drawing: null },
+          level6: null,
           // settings are intentionally preserved across a progress reset
           settings: state.settings,
         })),

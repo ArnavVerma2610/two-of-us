@@ -8,13 +8,18 @@ import LevelSelector from './components/LevelSelector'
 import Settings from './components/Settings'
 import Level01_Questions from './levels/Level01_Questions'
 import Level02_Canvas from './levels/Level02_Canvas'
+import Level03_Frame from './levels/Level03_Frame'
+import Level04_Sense from './levels/Level04_Sense'
+import Level05_Platformer from './levels/Level05_Platformer'
+import Level06_Letter from './levels/Level06_Letter'
 import LevelPlaceholder from './levels/LevelPlaceholder'
 
 function musicForScreen(s: Screen): MusicTrack {
   if (s.name === 'home') return 'home'
   if (s.name === 'selector' || s.name === 'settings') return 'select'
   if (s.name === 'level' && s.level === 1) return 'level1'
-  if (s.name === 'level' && s.level === 2) return 'level2'
+  if (s.name === 'level' && (s.level === 2 || s.level === 4 || s.level === 6)) return 'level2'
+  if (s.name === 'level' && s.level === 5) return 'level5'
   return 'select'
 }
 
@@ -66,6 +71,10 @@ export default function App() {
   else if (screen.name === 'level') {
     if (screen.level === 1) body = <Level01_Questions />
     else if (screen.level === 2) body = <Level02_Canvas />
+    else if (screen.level === 3) body = <Level03_Frame />
+    else if (screen.level === 4) body = <Level04_Sense />
+    else if (screen.level === 5) body = <Level05_Platformer />
+    else if (screen.level === 6) body = <Level06_Letter />
     else body = <LevelPlaceholder level={screen.level} />
   }
 

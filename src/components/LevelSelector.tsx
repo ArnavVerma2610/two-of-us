@@ -11,7 +11,7 @@ const COLS = 4
 
 export default function LevelSelector() {
   const nav = useNav()
-  const { completedLevels, levelScores, isUnlocked, level2 } = useGame()
+  const { completedLevels, levelScores, isUnlocked, level2, level3 } = useGame()
   const [focus, setFocus] = useState(0)
 
   const open = (id: number) => {
@@ -87,6 +87,8 @@ export default function LevelSelector() {
           const score = levelScores[lvl.id]
           const isFocused = focus === i
           const bg = !unlocked ? 'var(--gray-grid)' : completed ? 'var(--mint)' : 'var(--cyan-pop)'
+          const thumb =
+            lvl.id === 2 ? level2.artwork : lvl.id === 3 ? level3.framed : null
 
           return (
             <div key={lvl.id} className="flex flex-col items-center" style={{ gap: 6 }}>
@@ -114,11 +116,11 @@ export default function LevelSelector() {
                   boxShadow: isFocused && unlocked ? '5px 7px 0 0 var(--ink)' : '3px 3px 0 0 var(--ink)',
                 }}
               >
-                {/* Level 2 shows artwork thumbnail when complete */}
-                {lvl.id === 2 && completed && level2.artwork ? (
+                {/* Levels 2 & 3 show a thumbnail of the player's creation when complete */}
+                {completed && thumb ? (
                   <img
-                    src={level2.artwork}
-                    alt="Your memory canvas"
+                    src={thumb}
+                    alt={`Your ${lvl.name}`}
                     style={{ width: '78%', height: '78%', objectFit: 'cover', border: '2px solid var(--ink)' }}
                   />
                 ) : (
