@@ -7,6 +7,26 @@ import PixelFrame from './PixelFrame'
 import PixelSprite from './PixelSprite'
 import SoundToggle from './SoundToggle'
 
+// Floating pixel confetti for the title backdrop. Rotated chips twinkle,
+// upright chips drift — keeps each chip's transform free of conflicts.
+const DECOR = [
+  { x: '6%', y: '13%', s: 14, c: 'var(--gold)', r: true, d: 0 },
+  { x: '17%', y: '31%', s: 9, c: 'var(--cyan-pop)', r: false, d: 0.6 },
+  { x: '11%', y: '55%', s: 12, c: 'var(--magenta)', r: true, d: 1.2 },
+  { x: '8%', y: '76%', s: 8, c: 'var(--mint)', r: false, d: 0.3 },
+  { x: '25%', y: '17%', s: 10, c: 'var(--violet)', r: true, d: 1.8 },
+  { x: '31%', y: '66%', s: 9, c: 'var(--gold)', r: false, d: 0.9 },
+  { x: '45%', y: '9%', s: 12, c: 'var(--cyan-pop)', r: true, d: 0.5 },
+  { x: '54%', y: '24%', s: 8, c: 'var(--magenta)', r: false, d: 1.5 },
+  { x: '71%', y: '13%', s: 13, c: 'var(--mint)', r: true, d: 1.0 },
+  { x: '83%', y: '27%', s: 9, c: 'var(--gold)', r: false, d: 0.2 },
+  { x: '89%', y: '51%', s: 11, c: 'var(--violet)', r: true, d: 1.4 },
+  { x: '91%', y: '71%', s: 8, c: 'var(--cyan-pop)', r: false, d: 0.7 },
+  { x: '79%', y: '81%', s: 11, c: 'var(--magenta)', r: true, d: 2.0 },
+  { x: '64%', y: '61%', s: 9, c: 'var(--gold)', r: false, d: 1.1 },
+  { x: '57%', y: '83%', s: 10, c: 'var(--mint)', r: true, d: 0.4 },
+]
+
 export default function HomeScreen() {
   const nav = useNav()
   const { hasSave, startNewGame, continueGame } = useGame()
@@ -50,6 +70,33 @@ export default function HomeScreen() {
       className="relative flex flex-col items-center justify-center px-4"
       style={{ minHeight: '100vh', textAlign: 'center' }}
     >
+      {/* pixel backdrop — rolling hills + floating confetti */}
+      <div
+        aria-hidden
+        style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: -1, pointerEvents: 'none' }}
+      >
+        <div style={{ position: 'absolute', bottom: -70, left: '-6%', width: '46%', height: 180, background: 'var(--violet)', borderRadius: '50% 50% 0 0', opacity: 0.45 }} />
+        <div style={{ position: 'absolute', bottom: -90, right: '-10%', width: '56%', height: 220, background: 'var(--mint)', borderRadius: '50% 50% 0 0', opacity: 0.4 }} />
+        <div style={{ position: 'absolute', bottom: -60, left: '32%', width: '42%', height: 150, background: 'var(--cyan-pop)', borderRadius: '50% 50% 0 0', opacity: 0.32 }} />
+        {DECOR.map((d, i) => (
+          <div
+            key={i}
+            className={d.r ? 'deco-twinkle' : 'deco-float'}
+            style={{
+              position: 'absolute',
+              left: d.x,
+              top: d.y,
+              width: d.s,
+              height: d.s,
+              background: d.c,
+              border: '2px solid var(--ink)',
+              transform: d.r ? 'rotate(45deg)' : undefined,
+              animationDelay: `${d.d}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div
         className="flex items-center justify-center gap-10 sm:gap-16 flex-wrap"
         ref={titleRef}

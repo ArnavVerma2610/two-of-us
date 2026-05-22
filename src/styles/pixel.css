@@ -34,7 +34,7 @@ body,
 body {
   background-color: var(--bg-deep);
   color: var(--ink);
-  font-family: 'Patrick Hand', 'Comic Sans MS', sans-serif;
+  font-family: 'VT323', 'Courier New', monospace;
   overflow-x: hidden;
 }
 
@@ -85,22 +85,22 @@ canvas {
 
 /* --- Typography ----------------------------------------------------------- */
 .font-press {
-  font-family: 'Permanent Marker', 'Comic Sans MS', cursive;
+  font-family: 'Press Start 2P', monospace;
   letter-spacing: 0.5px;
 }
 .font-vt {
-  font-family: 'Patrick Hand', 'Comic Sans MS', sans-serif;
+  font-family: 'VT323', monospace;
 }
 
 .wordmark {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Press Start 2P', monospace;
   color: var(--ink);
   text-shadow: 2px 2px 0 var(--magenta), 4px 4px 0 var(--gold);
   letter-spacing: 1px;
 }
 
 .big-number {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Press Start 2P', monospace;
   color: var(--violet);
   text-shadow: 3px 3px 0 var(--gold);
 }
@@ -108,7 +108,7 @@ canvas {
 /* --- Pixel button --------------------------------------------------------- */
 .pixel-btn {
   position: relative;
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Press Start 2P', monospace;
   border: 3px solid var(--ink);
   box-shadow: 3px 3px 0 0 var(--ink);
   image-rendering: pixelated;
@@ -149,7 +149,7 @@ canvas {
 
 /* --- Inputs --------------------------------------------------------------- */
 .pixel-input {
-  font-family: 'Patrick Hand', sans-serif;
+  font-family: 'VT323', monospace;
   background: var(--bone);
   color: var(--ink);
   border: 3px solid var(--ink);
@@ -174,7 +174,7 @@ canvas {
 
 /* --- Pixel pill (tags) ---------------------------------------------------- */
 .pixel-pill {
-  font-family: 'Patrick Hand', sans-serif;
+  font-family: 'VT323', monospace;
   border: 2px solid var(--ink);
   box-shadow: 2px 2px 0 0 var(--ink);
   display: inline-flex;
@@ -312,6 +312,32 @@ canvas {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+/* --- Home backdrop decorations -------------------------------------------- */
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+.deco-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+.deco-twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
 }
 
 /* Level 5 — heart shatter on life loss (4-frame stepped break) */

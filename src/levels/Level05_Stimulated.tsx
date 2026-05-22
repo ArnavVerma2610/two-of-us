@@ -1010,7 +1010,7 @@ function TouchBtn({ label, wide, onDown, onUp }: { label: string; wide?: boolean
       onPointerUp={onUp}
       onPointerLeave={onUp}
       onContextMenu={(e) => e.preventDefault()}
-      style={{ background: 'var(--bone)', color: 'var(--ink)', fontFamily: "'Permanent Marker', cursive", fontSize: wide ? 13 : 18, width: wide ? 110 : 52, height: 52, touchAction: 'none' }}
+      style={{ background: 'var(--bone)', color: 'var(--ink)', fontFamily: "'Press Start 2P', monospace", fontSize: wide ? 10 : 9, width: wide ? 110 : 52, height: 52, touchAction: 'none' }}
     >
       {label}
     </button>

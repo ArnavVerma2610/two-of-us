@@ -35,6 +35,13 @@ function flowerPath(petals = 6, rxO = 44, ryO = 62, rxI = 28, ryI = 40, steps = 
   return d + 'Z'
 }
 
+// Build an auto-closed SVG path from a freehand point list. The trailing 'Z'
+// joins the last point back to the first so the stroke becomes a real frame.
+function ptsToPath(pts: { x: number; y: number }[]): string {
+  if (pts.length < 2) return ''
+  return 'M' + pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('L') + 'Z'
+}
+
 type Frame = { key: string; label: string; d: string }
 
 const SHAPES: Frame[] = [
@@ -64,15 +71,19 @@ export default function Level03_Frame() {
   const [camOpen, setCamOpen] = useState(false)
   const [camError, setCamError] = useState<string | null>(null)
 
+  const [framePts, setFramePts] = useState<{ x: number; y: number }[]>([])
+
   const fileRef = useRef<HTMLInputElement>(null)
   const drawRef = useRef<HTMLCanvasElement>(null)
   const drawing = useRef(false)
   const last = useRef<{ x: number; y: number } | null>(null)
+  const ptsRef = useRef<{ x: number; y: number }[]>([])
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
 
   const isDraw = frame === 'draw'
   const shape = SHAPES.find((s) => s.key === frame) ?? SHAPES[0]
+  const drawD = framePts.length >= 3 ? ptsToPath(framePts) : ''
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -96,6 +107,8 @@ export default function Level03_Frame() {
     if (!cv) return
     const ctx = cv.getContext('2d')!
     ctx.clearRect(0, 0, cv.width, cv.height)
+    setFramePts([])
+    ptsRef.current = []
   }, [isDraw])
 
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,6 +170,7 @@ export default function Level03_Frame() {
     const { x, y } = dcoords(e)
     drawing.current = true
     last.current = { x, y }
+    ptsRef.current = [{ x, y }]
     ctx.fillStyle = color
     ctx.beginPath()
     ctx.arc(x, y, brush / 2, 0, Math.PI * 2)
@@ -174,14 +188,23 @@ export default function Level03_Frame() {
     ctx.lineTo(x, y)
     ctx.stroke()
     last.current = { x, y }
+    ptsRef.current.push({ x, y })
   }
   const onUp = () => {
     drawing.current = false
     last.current = null
+    // commit the freehand loop as an auto-closed frame
+    if (ptsRef.current.length >= 3) {
+      setFramePts(ptsRef.current.slice())
+      const cv = drawRef.current
+      if (cv) cv.getContext('2d')!.clearRect(0, 0, cv.width, cv.height)
+    }
   }
   const clearDraw = () => {
     const cv = drawRef.current
     if (cv) cv.getContext('2d')!.clearRect(0, 0, cv.width, cv.height)
+    setFramePts([])
+    ptsRef.current = []
     audio.sfx('back')
   }
 
@@ -224,9 +247,23 @@ export default function Level03_Frame() {
       const img = new Image()
       img.onload = () => {
         if (isDraw) {
-          drawCover(ctx, img, OUT_W, OUT_H)
-          const dl = drawRef.current
-          if (dl) ctx.drawImage(dl, 0, 0, OUT_W, OUT_H)
+          if (framePts.length >= 3) {
+            // the freehand loop becomes a clip + a drawn frame outline
+            const p = new Path2D(ptsToPath(framePts))
+            ctx.save()
+            ctx.clip(p)
+            drawCover(ctx, img, OUT_W, OUT_H)
+            ctx.restore()
+            ctx.save()
+            ctx.lineJoin = 'round'
+            ctx.lineCap = 'round'
+            ctx.strokeStyle = color
+            ctx.lineWidth = brush
+            ctx.stroke(p)
+            ctx.restore()
+          } else {
+            drawCover(ctx, img, OUT_W, OUT_H)
+          }
           finishBorder()
         } else {
           const sx = OUT_W / BW
@@ -298,11 +335,23 @@ export default function Level03_Frame() {
               {source ? (
                 isDraw ? (
                   <>
-                    <img
-                      src={source}
-                      alt="frame source"
-                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }}
-                    />
+                    {drawD ? (
+                      <svg viewBox={`0 0 ${OUT_W} ${OUT_H}`} width="100%" height="100%" style={{ position: 'absolute', inset: 0, display: 'block' }}>
+                        <defs>
+                          <clipPath id={clipId}>
+                            <path d={drawD} />
+                          </clipPath>
+                        </defs>
+                        <image href={source} x="0" y="0" width={OUT_W} height={OUT_H} preserveAspectRatio="xMidYMid slice" clipPath={`url(#${clipId})`} />
+                        <path d={drawD} fill="none" stroke={color} strokeWidth={brush} strokeLinejoin="round" strokeLinecap="round" />
+                      </svg>
+                    ) : (
+                      <img
+                        src={source}
+                        alt="frame source"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }}
+                      />
+                    )}
                     <canvas
                       ref={drawRef}
                       width={OUT_W}
