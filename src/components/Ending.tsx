@@ -45,7 +45,7 @@ export default function Ending() {
             zIndex: -1,
           }}
         />
-        <PixelSprite sprite="main" scale={11} className="bob" title="The mascot" />
+        <PixelSprite sprite="main" scale={9} className="bob" title="The mascot" />
       </div>
 
       <h1 className="wordmark" style={{ fontSize: 'clamp(24px, 7vw, 48px)', lineHeight: 1.05 }}>

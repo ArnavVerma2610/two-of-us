@@ -201,7 +201,7 @@ export default function Level04_Sense() {
         <PixelButton variant="bone" size="sm" sfx="back" onClick={() => nav({ name: 'selector' })}>
           ← BACK
         </PixelButton>
-        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--gold)' }}>
+        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--violet)' }}>
           SENSE SKETCH
         </h2>
         <span style={{ width: 60 }} />
@@ -268,7 +268,7 @@ export default function Level04_Sense() {
                 </ul>
               </div>
             </PixelFrame>
-            <p className="font-vt" style={{ fontSize: 15, color: 'var(--bone)', opacity: 0.7 }}>
+            <p className="font-vt" style={{ fontSize: 15, color: 'var(--ink)', opacity: 0.7 }}>
               Draw the feeling, not the name.
             </p>
           </div>
@@ -360,12 +360,12 @@ export default function Level04_Sense() {
 
       {phase === 'reveal' && (
         <div className="flex flex-col items-center gap-5 mt-3">
-          <p className="font-vt text-center" style={{ fontSize: 22, color: 'var(--bone)' }}>
+          <p className="font-vt text-center" style={{ fontSize: 22, color: 'var(--ink)' }}>
             Time’s up — here’s what it actually was. How close did the feeling get?
           </p>
           <div className="flex justify-center items-stretch gap-5 flex-wrap">
             <div className="flex flex-col items-center gap-2">
-              <p className="font-press" style={{ fontSize: 10, color: 'var(--gold)' }}>
+              <p className="font-press" style={{ fontSize: 10, color: 'var(--violet)' }}>
                 YOUR SKETCH
               </p>
               <PixelFrame>
@@ -377,7 +377,7 @@ export default function Level04_Sense() {
               </PixelFrame>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <p className="font-press" style={{ fontSize: 10, color: 'var(--gold)' }}>
+              <p className="font-press" style={{ fontSize: 10, color: 'var(--violet)' }}>
                 THE OBJECT
               </p>
               <PixelFrame style={{ minWidth: 220 }}>

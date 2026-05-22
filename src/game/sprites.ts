@@ -213,28 +213,29 @@ export const spriteHeart: Sprite = {
   ],
 }
 
-// --- Main character — the waving mascot you play as (shaded) ----------------
+// --- Main character — the colourful waving mascot (reference 1) -------------
+// Full, dynamic version for the title + ending, lightly shaded for depth.
 export const spriteMain: Sprite = {
   legend: {
     o: C.ink,
-    y: C.gold, // hair + hand
-    Y: C.goldL, // hair highlight
-    k: C.goldD, // hair shadow
-    r: C.orange, // arms
-    q: C.orangeD, // arm shadow
-    s: C.cream, // face
-    d: C.creamD, // face shadow
-    w: C.white, // eyes
-    p: C.violet, // pupils
-    m: C.magenta, // mouth
-    n: C.magentaD, // mouth shadow
-    g: C.green, // shirt
-    G: C.greenL, // shirt highlight
-    e: C.greenD, // shirt shadow
-    b: C.cyan, // legs
-    c: C.cyanD, // leg shadow
-    u: C.purple, // shoes
-    v: C.purpleD, // shoe shadow
+    y: C.gold,
+    Y: C.goldL,
+    k: C.goldD,
+    r: C.orange,
+    q: C.orangeD,
+    s: C.cream,
+    d: C.creamD,
+    w: C.white,
+    p: C.violet,
+    m: C.magenta,
+    n: C.magentaD,
+    g: C.green,
+    G: C.greenL,
+    e: C.greenD,
+    b: C.cyan,
+    c: C.cyanD,
+    u: C.purple,
+    v: C.purpleD,
   },
   grid: [
     '..Y.Y...........',
@@ -259,6 +260,40 @@ export const spriteMain: Sprite = {
   ],
 }
 
+// --- Chibi mascot — compact big-head version for the levels -----------------
+const chibiGrid: SpriteGrid = [
+  '...y.y........',
+  '..oyo.ooooo...',
+  '..oyo.oyyyyo..',
+  '..oro.osssso..',
+  '..oro.owwwwo..',
+  '..oro.opwwpo..',
+  '..oro.osssso..',
+  '..oro.osmmso..',
+  '..orr.osssso..',
+  '...roggggggo..',
+  '...ogggggggoro',
+  '...ogggggorro.',
+  '...oggggggo...',
+  '...obbo.obbo..',
+  '...obbo.obbo..',
+  '..ouuuo.ouuuo.',
+]
+
+const chibiLegendP1: Record<string, string> = {
+  o: C.ink, y: C.gold, r: C.orange, s: C.cream,
+  w: C.white, p: C.violet, m: C.magenta,
+  g: C.green, b: C.cyan, u: C.purple,
+}
+const chibiLegendP2: Record<string, string> = {
+  o: C.ink, y: '#ed3e8e', r: '#2bb0e6', s: C.cream,
+  w: C.white, p: '#ec3f6e', m: '#7a33b5',
+  g: '#f5b51c', b: '#7a33b5', u: '#ec3f6e',
+}
+
+export const spriteChibi: Sprite = { legend: chibiLegendP1, grid: chibiGrid }
+export const spriteChibiAlt: Sprite = { legend: chibiLegendP2, grid: chibiGrid }
+
 // --- Sealed envelope (Level 6 confirmation) --------------------------------
 export const spriteLetter: Sprite = {
   legend: { o: C.ink, w: C.bone, r: C.red },
@@ -279,6 +314,8 @@ export const allSprites = {
   p2: spriteP2,
   hero: spriteHero,
   main: spriteMain,
+  chibi: spriteChibi,
+  chibiAlt: spriteChibiAlt,
   letter: spriteLetter,
   lock: spriteLock,
   check: spriteCheck,

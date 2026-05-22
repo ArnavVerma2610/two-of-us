@@ -50,7 +50,7 @@ export default function TapToBegin({ onBegin }: { onBegin: () => void }) {
       <h1 className="wordmark" style={{ fontSize: 'clamp(20px, 7vw, 44px)', textAlign: 'center' }}>
         TWO OF US
       </h1>
-      <p className="font-press" style={{ fontSize: 12, color: 'var(--gold)' }}>
+      <p className="font-press" style={{ fontSize: 12, color: 'var(--violet)' }}>
         TAP TO BEGIN
       </p>
       <p className="font-vt" style={{ fontSize: 20, color: 'var(--bone)', opacity: 0.7 }}>

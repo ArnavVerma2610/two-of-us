@@ -75,7 +75,7 @@ export default function HomeScreen() {
               zIndex: -1,
             }}
           />
-          <PixelSprite sprite="main" scale={14} className="bob" title="The mascot" />
+          <PixelSprite sprite="main" scale={11} className="bob" title="The mascot" />
           {/* pixel pedestal + cast shadow */}
           <div
             style={{
@@ -97,7 +97,7 @@ export default function HomeScreen() {
             <br />
             OF US
           </h1>
-          <p className="font-vt" style={{ fontSize: 24, color: 'var(--gold)' }}>
+          <p className="font-vt" style={{ fontSize: 24, color: 'var(--violet)' }}>
             a compatibility arcade
           </p>
           <div className="flex flex-col gap-4" style={{ width: 300, maxWidth: '80vw' }}>

@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --ink: #15131c;
-  --bone: #f4ecdc;
-  --cyan-pop: #2ec4d6;
-  --orange-pop: #ff7a2a;
-  --red-accent: #e63946;
-  --gold: #f2b33d;
-  --mint: #7fd6a8;
-  --violet: #6b5bd2;
-  --gray-grid: #2a2735;
-  --bg-deep: #0b0a12;
+  /* Light "Bits of New Sense" theme — cream paper + bright marker accents */
+  --ink: #20202a; /* near-black text + outlines */
+  --bone: #fffdf6; /* panel fill (near white) */
+  --cyan-pop: #2bb0e6;
+  --orange-pop: #f47b2a;
+  --red-accent: #ec3f6e; /* pink-red */
+  --gold: #f5b51c;
+  --mint: #84c441; /* vivid green */
+  --violet: #7a33b5; /* poster purple */
+  --magenta: #ed3e8e;
+  --gray-grid: #e6dcc4; /* faint warm grid line on cream */
+  --gray-mute: #cbbfa6; /* muted taupe (locked tiles) */
+  --bg-deep: #faf3e3; /* cream page background */
 
   --pixel: 4px;
 }
@@ -30,11 +33,8 @@ body,
 
 body {
   background-color: var(--bg-deep);
-  color: var(--bone);
-  font-family: 'VT323', 'Courier New', monospace;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
-  image-rendering: pixelated;
+  color: var(--ink);
+  font-family: 'Patrick Hand', 'Comic Sans MS', sans-serif;
   overflow-x: hidden;
 }
 
@@ -54,7 +54,7 @@ canvas {
     linear-gradient(90deg, var(--gray-grid) 1px, transparent 1px);
   background-size: 32px 32px;
   animation: gridDrift 60s linear infinite;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 @keyframes gridDrift {
@@ -75,39 +75,40 @@ canvas {
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.08) 0px,
-    rgba(0, 0, 0, 0.08) 1px,
+    rgba(0, 0, 0, 0.04) 0px,
+    rgba(0, 0, 0, 0.04) 1px,
     transparent 2px,
     transparent 4px
   );
-  opacity: 0.5;
+  opacity: 0.25;
 }
 
 /* --- Typography ----------------------------------------------------------- */
 .font-press {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Permanent Marker', 'Comic Sans MS', cursive;
+  letter-spacing: 0.5px;
 }
 .font-vt {
-  font-family: 'VT323', monospace;
+  font-family: 'Patrick Hand', 'Comic Sans MS', sans-serif;
 }
 
 .wordmark {
-  font-family: 'Press Start 2P', monospace;
-  color: var(--bone);
-  text-shadow: 3px 3px 0 var(--red-accent), 6px 6px 0 var(--ink);
-  letter-spacing: 2px;
+  font-family: 'Permanent Marker', cursive;
+  color: var(--ink);
+  text-shadow: 2px 2px 0 var(--magenta), 4px 4px 0 var(--gold);
+  letter-spacing: 1px;
 }
 
 .big-number {
-  font-family: 'Press Start 2P', monospace;
-  color: var(--gold);
-  text-shadow: 4px 4px 0 var(--red-accent), 8px 8px 0 var(--ink);
+  font-family: 'Permanent Marker', cursive;
+  color: var(--violet);
+  text-shadow: 3px 3px 0 var(--gold);
 }
 
 /* --- Pixel button --------------------------------------------------------- */
 .pixel-btn {
   position: relative;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Permanent Marker', cursive;
   border: 3px solid var(--ink);
   box-shadow: 3px 3px 0 0 var(--ink);
   image-rendering: pixelated;
@@ -148,7 +149,7 @@ canvas {
 
 /* --- Inputs --------------------------------------------------------------- */
 .pixel-input {
-  font-family: 'VT323', monospace;
+  font-family: 'Patrick Hand', sans-serif;
   background: var(--bone);
   color: var(--ink);
   border: 3px solid var(--ink);
@@ -173,7 +174,7 @@ canvas {
 
 /* --- Pixel pill (tags) ---------------------------------------------------- */
 .pixel-pill {
-  font-family: 'VT323', monospace;
+  font-family: 'Patrick Hand', sans-serif;
   border: 2px solid var(--ink);
   box-shadow: 2px 2px 0 0 var(--ink);
   display: inline-flex;
@@ -311,4 +312,24 @@ canvas {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+/* Level 5 — heart shatter on life loss (4-frame stepped break) */
+@keyframes heart-shatter {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1.3) rotate(-16deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.2) rotate(44deg);
+    opacity: 0;
+  }
+}
+.heart-shatter {
+  display: inline-block;
+  animation: heart-shatter 0.45s steps(4) forwards;
 }

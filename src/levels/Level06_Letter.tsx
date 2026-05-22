@@ -63,7 +63,7 @@ export default function Level06_Letter() {
         <PixelButton variant="bone" size="sm" sfx="back" onClick={() => nav({ name: 'selector' })}>
           ← BACK
         </PixelButton>
-        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--gold)' }}>
+        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--violet)' }}>
           TIME CAPSULE
         </h2>
         <span style={{ width: 60 }} />

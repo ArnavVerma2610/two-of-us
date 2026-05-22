@@ -26,6 +26,15 @@ export type Settings = {
   sfxMuted: boolean
 }
 
+// Level 5 — resumable mid-stage snapshot. Active blindness is intentionally
+// not persisted (it resets on resume).
+export type Level5State = {
+  currentStage: number // 1..3
+  lives: number
+  stimulationMeter: number // 0..100
+  lastCheckpointId: number // index into the stage's checkpoint list
+}
+
 export type Level1State = {
   p1: PlayerAnswers | null
   p2: PlayerAnswers | null
@@ -62,6 +71,9 @@ interface GameStore {
   // Level 4 — sensory sketch
   level4: { drawing: string | null }
 
+  // Level 5 — sensory platformer (resumable mid-stage)
+  level5: Level5State | null
+
   // Level 6 — letter to future self
   level6: SealedLetter | null
 
@@ -87,6 +99,8 @@ interface GameStore {
   saveLevel3Framed: (dataURL: string) => void
   saveLevel4Drawing: (dataURL: string) => void
   sealLetter: (letter: SealedLetter) => void
+  saveLevel5: (partial: Partial<Level5State>) => void
+  clearLevel5: () => void
 
   // Settings + reset
   resetProgress: () => void
@@ -112,6 +126,7 @@ export const useGame = create<GameStore>()(
       level2: { artwork: null },
       level3: { framed: null },
       level4: { drawing: null },
+      level5: null,
       level6: null,
 
       settings: {
@@ -131,6 +146,7 @@ export const useGame = create<GameStore>()(
           level2: { artwork: null },
           level3: { framed: null },
           level4: { drawing: null },
+          level5: null,
           level6: null,
         }),
 
@@ -180,6 +196,21 @@ export const useGame = create<GameStore>()(
 
       sealLetter: (letter) => set({ level6: letter, hasSave: true }),
 
+      saveLevel5: (partial) =>
+        set((state) => ({
+          level5: {
+            currentStage: 1,
+            lives: 3,
+            stimulationMeter: 0,
+            lastCheckpointId: 0,
+            ...(state.level5 ?? {}),
+            ...partial,
+          },
+          hasSave: true,
+        })),
+
+      clearLevel5: () => set({ level5: null }),
+
       resetProgress: () =>
         set((state) => ({
           completedLevels: [],
@@ -190,6 +221,7 @@ export const useGame = create<GameStore>()(
           level2: { artwork: null },
           level3: { framed: null },
           level4: { drawing: null },
+          level5: null,
           level6: null,
           // settings are intentionally preserved across a progress reset
           settings: state.settings,

@@ -58,7 +58,7 @@ export default function LevelSelector() {
         <PixelButton variant="bone" sfx="back" onClick={() => nav({ name: 'home' })}>
           ← BACK
         </PixelButton>
-        <p className="font-press" style={{ fontSize: 12, color: 'var(--gold)' }}>
+        <p className="font-press" style={{ fontSize: 12, color: 'var(--violet)' }}>
           {completedLevels.length} / {TOTAL_LEVELS} COMPLETE
         </p>
         <SoundToggle />
@@ -66,7 +66,7 @@ export default function LevelSelector() {
 
       <h2
         className="font-press text-center mb-8"
-        style={{ fontSize: 'clamp(14px, 4vw, 22px)', color: 'var(--bone)' }}
+        style={{ fontSize: 'clamp(14px, 4vw, 22px)', color: 'var(--ink)' }}
       >
         CHARACTER... er, LEVEL SELECT
       </h2>
@@ -86,7 +86,7 @@ export default function LevelSelector() {
           const completed = completedLevels.includes(lvl.id)
           const score = levelScores[lvl.id]
           const isFocused = focus === i
-          const bg = !unlocked ? 'var(--gray-grid)' : completed ? 'var(--mint)' : 'var(--cyan-pop)'
+          const bg = !unlocked ? 'var(--gray-mute)' : completed ? 'var(--mint)' : 'var(--cyan-pop)'
           const thumb =
             lvl.id === 2 ? level2.artwork : lvl.id === 3 ? level3.framed : null
 
@@ -160,7 +160,7 @@ export default function LevelSelector() {
               </button>
               <span
                 className="font-vt"
-                style={{ fontSize: 16, color: unlocked ? 'var(--bone)' : 'var(--gray-grid)', textAlign: 'center', lineHeight: 1.1 }}
+                style={{ fontSize: 16, color: unlocked ? 'var(--ink)' : 'var(--gray-mute)', textAlign: 'center', lineHeight: 1.1 }}
               >
                 {lvl.name}
               </span>

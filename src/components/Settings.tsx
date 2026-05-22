@@ -62,7 +62,7 @@ export default function Settings() {
         <PixelButton variant="bone" sfx="back" onClick={() => nav({ name: 'home' })}>
           ← BACK
         </PixelButton>
-        <h2 className="font-press" style={{ fontSize: 16, color: 'var(--gold)' }}>
+        <h2 className="font-press" style={{ fontSize: 16, color: 'var(--violet)' }}>
           SETTINGS
         </h2>
         <span style={{ width: 80 }} />

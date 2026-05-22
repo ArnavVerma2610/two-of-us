@@ -100,13 +100,13 @@ export default function Level01_Questions() {
         <PixelButton variant="bone" size="sm" sfx="back" onClick={() => nav({ name: 'selector' })}>
           ← BACK
         </PixelButton>
-        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--gold)' }}>
+        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--violet)' }}>
           FIRST IMPRESSIONS
         </h2>
         <span style={{ width: 50 }} />
       </div>
 
-      <p className="font-vt text-center mb-4" style={{ fontSize: 20, color: 'var(--bone)' }}>
+      <p className="font-vt text-center mb-4" style={{ fontSize: 20, color: 'var(--ink)' }}>
         Both of you, fill in your side. Then reveal how in sync you are.
       </p>
 
@@ -148,7 +148,7 @@ export default function Level01_Questions() {
           {bothReady ? 'CALCULATE COMPATIBILITY →' : 'BOTH PLAYERS: FILL EVERY FIELD'}
         </PixelButton>
         {!bothReady && (
-          <p className="font-vt" style={{ fontSize: 16, color: 'var(--bone)', opacity: 0.7 }}>
+          <p className="font-vt" style={{ fontSize: 16, color: 'var(--ink)', opacity: 0.7 }}>
             {isComplete(p1) ? '✓ P1 ready' : '… P1 in progress'} &nbsp;|&nbsp;{' '}
             {isComplete(p2) ? '✓ P2 ready' : '… P2 in progress'}
           </p>
@@ -186,7 +186,7 @@ function PlayerColumn({
       <div style={{ background: tint, padding: 16, color: 'var(--ink)' }}>
         {/* header */}
         <div className="flex items-center gap-3" style={{ borderBottom: '3px solid var(--ink)', paddingBottom: 10 }}>
-          <PixelSprite sprite={player === 1 ? 'p1' : 'p2'} scale={4} />
+          <PixelSprite sprite={player === 1 ? 'chibi' : 'chibiAlt'} scale={3} />
           <div style={{ flex: 1 }}>
             <p className="font-press" style={{ fontSize: 11, color: accent === 'var(--cyan-pop)' ? '#1C8C99' : '#C2531A' }}>
               PLAYER {player}
@@ -430,7 +430,7 @@ function RevealScreen({
   if (stage === 'calc') {
     return (
       <main className="flex flex-col items-center justify-center px-4" style={{ minHeight: '100vh', background: 'var(--bg-deep)', textAlign: 'center' }}>
-        <p className="font-press" style={{ fontSize: 'clamp(12px, 3.5vw, 18px)', color: 'var(--gold)', marginBottom: 24 }}>
+        <p className="font-press" style={{ fontSize: 'clamp(12px, 3.5vw, 18px)', color: 'var(--violet)', marginBottom: 24 }}>
           CALCULATING
           <br />
           COMPATIBILITY
@@ -448,7 +448,7 @@ function RevealScreen({
 
   return (
     <main className="flex flex-col items-center px-4 py-8" style={{ minHeight: '100vh', background: 'var(--bg-deep)', textAlign: 'center' }}>
-      <p className="font-vt" style={{ fontSize: 24, color: 'var(--bone)', marginBottom: 6 }}>
+      <p className="font-vt" style={{ fontSize: 24, color: 'var(--ink)', marginBottom: 6 }}>
         {p1.name || 'P1'} <span style={{ color: 'var(--red-accent)' }}>♥</span> {p2.name || 'P2'}
       </p>
       <div className="big-number" style={{ fontSize: 'clamp(56px, 18vw, 120px)', lineHeight: 1 }}>
@@ -464,9 +464,9 @@ function RevealScreen({
           const shown = barsShown > i
           return (
             <div key={cat}>
-              <div className="flex justify-between font-vt" style={{ fontSize: 18, color: 'var(--bone)', marginBottom: 2 }}>
+              <div className="flex justify-between font-vt" style={{ fontSize: 18, color: 'var(--ink)', marginBottom: 2 }}>
                 <span>{categoryLabels[cat]}</span>
-                <span style={{ color: 'var(--gold)' }}>{shown ? val : 0}/20</span>
+                <span style={{ color: 'var(--violet)' }}>{shown ? val : 0}/20</span>
               </div>
               <div className="bar-track">
                 <div className="bar-fill" style={{ width: `${shown ? (val / 20) * 100 : 0}%` }} />

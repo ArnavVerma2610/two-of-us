@@ -1,6 +1,14 @@
 import * as Tone from 'tone'
 
-export type MusicTrack = 'home' | 'select' | 'level1' | 'level2' | 'level5'
+export type MusicTrack =
+  | 'home'
+  | 'select'
+  | 'level1'
+  | 'level2'
+  | 'level5'
+  | 'level5_stage1'
+  | 'level5_stage2'
+  | 'level5_stage3'
 export type SfxName =
   | 'click'
   | 'select'
@@ -14,6 +22,15 @@ export type SfxName =
   | 'coin'
   | 'stomp'
   | 'hurt'
+  | 'hit_sight'
+  | 'hit_sound'
+  | 'hit_taste'
+  | 'hit_touch'
+  | 'powerup'
+  | 'heart_break'
+  | 'meter_full'
+  | 'echo_pulse'
+  | 'fire_tell'
 
 // ---------------------------------------------------------------------------
 // A small warm-chiptune engine built on Tone.js. Music is procedural: chord
@@ -84,6 +101,39 @@ const TRACKS: Record<MusicTrack, TrackDef> = {
     ],
     melody: ['C5', 'E5', 'G5', 'A5', 'G5', 'E5', 'F5', 'A5', 'C5', 'D5', 'G4', 'B4'],
   },
+  // THE WAKE UP — soft, warm, gentle
+  level5_stage1: {
+    bpm: 92,
+    progression: [
+      ['C3', 'E3', 'G3'],
+      ['A2', 'C3', 'E3'],
+      ['F2', 'A2', 'C3'],
+      ['G2', 'B2', 'D3'],
+    ],
+    melody: ['G4', null, 'C5', null, 'E5', null, 'D5', null, 'C5', null, 'G4', null],
+  },
+  // THE CROWD — busy, chaotic, bouncy
+  level5_stage2: {
+    bpm: 124,
+    progression: [
+      ['E3', 'G3', 'B3'],
+      ['C3', 'E3', 'G3'],
+      ['A2', 'C3', 'E3'],
+      ['D3', 'F#3', 'A3'],
+    ],
+    melody: ['E5', 'G5', 'A5', 'B5', 'A5', 'G5', 'E5', 'D5', 'G5', 'B5', 'A5', 'F#5'],
+  },
+  // THE STATIC — sparse, ominous, slow
+  level5_stage3: {
+    bpm: 70,
+    progression: [
+      ['A2', 'C3', 'E3'],
+      ['F2', 'A2', 'C3'],
+      ['D2', 'F2', 'A2'],
+      ['E2', 'G2', 'B2'],
+    ],
+    melody: ['A4', null, null, 'E5', null, null, 'C5', null, null, 'G4', null, null],
+  },
 }
 
 class AudioEngine {
@@ -95,6 +145,9 @@ class AudioEngine {
   private sparkleSynth: Tone.Synth | null = null
   private kick: Tone.MembraneSynth | null = null
   private noise: Tone.NoiseSynth | null = null
+  private cueSynth: Tone.Synth | null = null
+  private cuePanner: Tone.Panner | null = null
+  private blindDucked = false
 
   private musicBus: Tone.Channel | null = null
   private sfxBus: Tone.Channel | null = null
@@ -157,6 +210,14 @@ class AudioEngine {
       volume: -28,
     }).connect(this.sfxBus)
 
+    // Positional cue voice for the blindness audio-navigation system.
+    this.cuePanner = new Tone.Panner(0).connect(this.sfxBus)
+    this.cueSynth = new Tone.Synth({
+      oscillator: { type: 'sine' },
+      envelope: { attack: 0.005, decay: 0.12, sustain: 0, release: 0.1 },
+      volume: -14,
+    }).connect(this.cuePanner)
+
     Tone.Transport.start()
     this.started = true
     this.applyVolumes()
@@ -171,7 +232,8 @@ class AudioEngine {
   private applyVolumes(): void {
     if (this.musicBus) {
       this.musicBus.mute = this.musicMuted
-      this.musicBus.volume.value = this.dbFromPercent(this.musicVolume)
+      const eff = this.blindDucked ? this.musicVolume * 0.2 : this.musicVolume
+      this.musicBus.volume.value = this.dbFromPercent(eff)
     }
     if (this.sfxBus) {
       this.sfxBus.mute = this.sfxMuted
@@ -194,6 +256,47 @@ class AudioEngine {
   setSfxVolume(v: number): void {
     this.sfxVolume = v
     this.applyVolumes()
+  }
+
+  // ---- Blindness audio system ---------------------------------------------
+  setBlindDuck(on: boolean): void {
+    this.blindDucked = on
+    this.applyVolumes()
+  }
+
+  /** A positional navigation cue. pan: -1 (left) .. 1 (right). */
+  cue(freq: number, dur: string, pan: number, vol = -14): void {
+    if (!this.started || !this.cueSynth || !this.cuePanner) return
+    try {
+      this.cuePanner.pan.value = Math.max(-1, Math.min(1, pan))
+      this.cueSynth.volume.value = vol
+      this.cueSynth.triggerAttackRelease(freq, dur, Tone.now())
+    } catch {
+      /* ignore */
+    }
+  }
+
+  blindOnset(): void {
+    if (!this.started) return
+    try {
+      const now = Tone.now()
+      this.noise?.triggerAttackRelease('4n', now)
+      ;[660, 440, 330, 220].forEach((f, i) => this.cueSynth?.triggerAttackRelease(f, '16n', now + i * 0.08))
+    } catch {
+      /* ignore */
+    }
+  }
+  blindRelease(): void {
+    if (!this.started) return
+    try {
+      const now = Tone.now()
+      ;[220, 330, 440, 660].forEach((f, i) => this.cueSynth?.triggerAttackRelease(f, '16n', now + i * 0.06))
+    } catch {
+      /* ignore */
+    }
+  }
+  blindTick(): void {
+    this.cue(900, '32n', 0, -12)
   }
 
   playMusic(track: MusicTrack): void {
@@ -302,6 +405,42 @@ class AudioEngine {
         this.sfxSynth.triggerAttackRelease('A3', '16n', now)
         this.sfxSynth.triggerAttackRelease('E3', '8n', now + 0.1)
         this.noise?.triggerAttackRelease('16n', now)
+        break
+      case 'hit_sight':
+        this.sfxSynth.triggerAttackRelease('A6', '32n', now)
+        break
+      case 'hit_sound':
+        this.kick?.triggerAttackRelease('C2', '8n', now)
+        this.sfxSynth.triggerAttackRelease('C3', '8n', now)
+        break
+      case 'hit_taste':
+        this.noise?.triggerAttackRelease('16n', now)
+        this.sfxSynth.triggerAttackRelease('D4', '16n', now)
+        break
+      case 'hit_touch':
+        this.noise?.triggerAttackRelease('32n', now)
+        this.sfxSynth.triggerAttackRelease('F#5', '32n', now)
+        this.sfxSynth.triggerAttackRelease('F#5', '32n', now + 0.04)
+        break
+      case 'powerup':
+        this.sparkleSynth?.triggerAttackRelease('E5', '16n', now)
+        this.sparkleSynth?.triggerAttackRelease('G5', '16n', now + 0.08)
+        this.sparkleSynth?.triggerAttackRelease('C6', '8n', now + 0.16)
+        break
+      case 'heart_break':
+        this.kick?.triggerAttackRelease('F1', '8n', now)
+        this.noise?.triggerAttackRelease('16n', now + 0.02)
+        break
+      case 'meter_full':
+        this.noise?.triggerAttackRelease('8n', now)
+        this.sfxSynth.triggerAttackRelease(['C3', 'C#3'], '4n', now)
+        break
+      case 'echo_pulse':
+        this.sparkleSynth?.triggerAttackRelease('C6', '16n', now)
+        this.sparkleSynth?.triggerAttackRelease('C5', '8n', now + 0.05)
+        break
+      case 'fire_tell':
+        this.cueSynth?.triggerAttackRelease('B5', '32n', now)
         break
     }
     } catch {

@@ -321,12 +321,12 @@ export default function Level02_Canvas() {
         <PixelButton variant="bone" size="sm" sfx="back" onClick={() => nav({ name: 'selector' })}>
           ← BACK
         </PixelButton>
-        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--gold)' }}>
+        <h2 className="font-press" style={{ fontSize: 'clamp(11px,3vw,16px)', color: 'var(--violet)' }}>
           MEMORY CANVAS
         </h2>
         <span style={{ width: 60 }} />
       </div>
-      <p className="font-vt text-center mb-3" style={{ fontSize: 20, color: 'var(--bone)' }}>
+      <p className="font-vt text-center mb-3" style={{ fontSize: 20, color: 'var(--ink)' }}>
         Together, paint a memory — abstract, no rules.{' '}
         <span style={{ opacity: 0.6 }}>Paint something only the two of you would recognize.</span>
       </p>
@@ -349,7 +349,7 @@ export default function Level02_Canvas() {
         <div className="flex flex-col items-center gap-2">
           {(tool === 'brush' || tool === 'eraser') && (
             <div className="flex gap-2 items-center">
-              <span className="font-vt" style={{ fontSize: 16, color: 'var(--bone)' }}>
+              <span className="font-vt" style={{ fontSize: 16, color: 'var(--ink)' }}>
                 SIZE
               </span>
               {[
